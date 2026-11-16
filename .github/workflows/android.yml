@@ -22,11 +22,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Add and Sync Capacitor Android
+      - name: Install dependencies and Capacitor
         run: |
+          npm install
+          npm install @capacitor/core @capacitor/cli @capacitor/android --save
+
+      - name: Init and Sync Capacitor Android
+        run: |
+          npx cap init "D'COMPRAS" "com.freysa.compras" --web-dir www --yes || true
           npx cap add android || true
           npx cap sync android
 
