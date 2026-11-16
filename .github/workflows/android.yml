@@ -27,12 +27,13 @@ jobs:
           npm install
           npm install @capacitor/core @capacitor/cli @capacitor/android --save
 
-      - name: Create capacitor.config.json
+      - name: Clean configs and create correct capacitor.config.json
         run: |
+          rm -f capacitor.config.ts capacitor.config.js
           cat << 'EOF' > capacitor.config.json
           {
             "appId": "com.freysa.compras",
-            "appName": "DCOMPRAS",
+            "appName": "D'COMPRAS",
             "webDir": "www",
             "server": {
               "url": "https://script.google.com/macros/s/AKfycby0SYoEusF5NNUllEn3KY7Y8bm7Cc60xTkCZzme1nUEvzVyRaZBR00qPAbpGXUjQ8jE/exec",
@@ -43,7 +44,7 @@ jobs:
 
       - name: Add and Sync Capacitor Android
         run: |
-          npx cap add android || true
+          npx cap add android
           npx cap sync android
 
       - name: Build Android APK
