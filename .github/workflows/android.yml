@@ -27,9 +27,22 @@ jobs:
           npm install
           npm install @capacitor/core @capacitor/cli @capacitor/android --save
 
-      - name: Init and Sync Capacitor Android
+      - name: Ensure capacitor.config.json exists
         run: |
-          npx cap init "D'COMPRAS" "com.freysa.compras" --web-dir www --yes || true
+          if [ ! -f capacitor.config.json ]; then
+            echo '{' > capacitor.config.json
+            echo '  "appId": "com.freysa.compras",' >> capacitor.config.json
+            echo '  "appName": "D\'COMPRAS",' >> capacitor.config.json
+            echo '  "webDir": "www",' >> capacitor.config.json
+            echo '  "server": {' >> capacitor.config.json
+            echo '    "url": "https://script.google.com/macros/s/AKfycby0SYoEusF5NNUllEn3KY7Y8bm7Cc60xTkCZzme1nUEvzVyRaZBR00qPAbpGXUjQ8jE/exec",' >> capacitor.config.json
+            echo '    "cleartext": true' >> capacitor.config.json
+            echo '  }' >> capacitor.config.json
+            echo '}' >> capacitor.config.json
+          fi
+
+      - name: Add and Sync Capacitor Android
+        run: |
           npx cap add android || true
           npx cap sync android
 
